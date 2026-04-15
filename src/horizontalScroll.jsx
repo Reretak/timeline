@@ -9,11 +9,13 @@ export default function useHorizontalScroll() {
     const el = elRef.current;
     if (el) {
       const onWheel = e => {
+        console.log(e)
+        if(e.target.className == "Scrollable"){return}
         if (e.deltaY == 0) return;
         e.preventDefault();
         el.scrollTo({
-          left: el.scrollLeft + e.deltaY,
-          behavior: "smooth"
+        left: el.scrollLeft + e.deltaY,
+        behavior: "smooth"
         });
       };
       el.addEventListener("wheel", onWheel);

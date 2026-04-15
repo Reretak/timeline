@@ -68,13 +68,16 @@ function CardText({text,setIsHovered}){
   const { width, height } = checkWindowDimension();
   let textstuff;
   let subtextstuff;
+  let linkstuff;
   if(width < 600){
     textstuff = "2rem"
     subtextstuff = "1rem"
+    linkstuff = "1rem"
   }
   else{
     textstuff = "4rem"
     subtextstuff = "1.25rem"
+    linkstuff = "2rem"
   }
   return (
     <div
@@ -83,10 +86,11 @@ function CardText({text,setIsHovered}){
       onTouchStart={()=>{setIsHovered(true)}}
       onTouchEnd={()=>{setIsHovered(false)}}
       style={{
-        overflow: "auto"
+        overflowY: "scroll",
+        maxHeight: "100%",
       }}
     >
-      <p
+      <p className="Scrollable"
         style={{
           fontSize: textstuff,
           fontWeight: "bold",
@@ -95,7 +99,7 @@ function CardText({text,setIsHovered}){
       >
         {text.titletext}
       </p>
-      <p
+      <p className="Scrollable"
         style={{
           fontSize: subtextstuff,
           padding: "20px"
@@ -103,8 +107,14 @@ function CardText({text,setIsHovered}){
       >
         {text.maintext}
       </p>
+      <hr></hr>
         {text.stories.map((s) => {
-          return <p key={s.id}><a href={s.link}>{s.name}</a></p>
+          return <p key={s.id} className="Scrollable" ><a href={s.link} className="Scrollable"
+          style={{
+            fontSize:linkstuff,
+            padding:"30px"
+          }}
+          >{s.name}</a></p>
         })}
     </div>
   )
@@ -141,7 +151,7 @@ function Card({ id,text,boxtext,boximg }){
           flexDirection: dir,
           minWidth: "700px",
           gap: "2%",
-          height: "100vh",
+          height: "95vh",
         }}
       >
         {firstBox}
@@ -154,10 +164,10 @@ function Card({ id,text,boxtext,boximg }){
 function Box({ children,isHovered }){
   let style = {}
   if(isHovered){ 
-    style = {opacity: "1"}
+    style = {visibility: "visible", opacity: "1"}
   }
   else{
-    style = {opacity: "0"}
+    style = {visibility: "hidden", opacity: "0"}
   }
   return (
     <>
@@ -166,8 +176,9 @@ function Box({ children,isHovered }){
           backgroundColor: "white",
           flex: "100",
           width: "100%", 
-          opacity: "0%",
-          transition: "opacity 1s cubic-bezier(0.01, 0.37, 0.01, 0.99)",
+          visibility: "visible",
+          opacity: "0",
+          transition: "visibility 0.5s cubic-bezier(0.01, 0.37, 0.01, 0.99),opacity 1s cubic-bezier(0.01, 0.37, 0.01, 0.99)",
           minHeight: "10px",
           ...style
         }}
