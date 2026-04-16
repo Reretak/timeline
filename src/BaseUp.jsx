@@ -8,7 +8,7 @@ function BaseUp() {
   const scrollRef = useHorizontalScroll();
 
   return (
-    <div style={{position: "relative"}}>
+    <div style={{position: "relative",maxWidth: "100vw"}}>
       <div ref={scrollRef} id="fakeroot">
         <Card id={"1"} boxtext={"2024-2026 / 514-516PU"} text={{
           maintext: "Whether intentionally or not, the organization had revealed the existence of another world to the public. Negotiation, threat, and backroom deals would fill many chambers during these years. While Earth's world leaders were busy, the leaders on the other side were in no way relaxed. Yet, without internet, information travels slowly. Only a small part of the world knew what a human was, but soon, they would know them very well.",
