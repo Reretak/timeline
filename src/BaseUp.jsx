@@ -89,6 +89,10 @@ function ArrowDown() {
 }
 function CardText({text,setIsHovered}){
   const { width, height } = checkWindowDimension();
+  const [stories, setStories] = useState(
+    text.stories.map(s =>({...s, checked:false}))
+  );
+  console.log(stories)
   let textstuff;
   let subtextstuff;
   let linkstuff;
@@ -112,6 +116,7 @@ function CardText({text,setIsHovered}){
         overflowY: "scroll",
         maxHeight: "100%",
       }}
+      className="Scrollable"
     >
       <p className="Scrollable"
         style={{
@@ -131,15 +136,89 @@ function CardText({text,setIsHovered}){
         {text.maintext}
       </p>
       <hr></hr>
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          textAlign: "left",
+        }}
+        className="Scrollable"
+      >
         {text.stories.map((s) => {
-          return <p key={s.id} className="Scrollable" ><a href={s.link} target="_blank" rel="noopener noreferrer" className="Scrollable"
-          style={{
-            fontSize:linkstuff,
-          }}
-          >{s.name}</a></p>
+            return <StoryItem s={s} key={s.id} linkstuff={linkstuff} setStories={setStories} stories={stories}></StoryItem>
         })}
+        </div>
     </div>
   )
+}
+function StoryItem({s,linkstuff,setStories,stories}){
+  let flashy;
+  let extra;
+  if(!stories[s.id].checked){
+    flashy={
+      backgroundPosition: "left",
+    }
+  }
+  else{
+    flashy = {
+      backgroundPosition: "center",
+    }
+  }
+  if(s.id % 2 == 0){
+    extra = {
+      backgroundImage: "linear-gradient(to right, #ffffff, #979797)"
+    }
+  }
+  else{
+    extra = {
+      backgroundImage: "linear-gradient(to right, #ffffff, #6b6b6b)"
+    }
+  }
+  return <p key={s.id} className="Scrollable" 
+  style={{
+    ...extra,
+    backgroundSize: "500% 100%",
+    transition: "background-position 0.2s ease",
+    display: "flex",
+    flexDirection: "column",
+    flexWrap: "nowrap",
+    maxWidth: "100%",
+    paddingLeft: "10%",
+    paddingRight: "20%",
+    ...flashy
+  }}><a href={s.link} target="_blank" rel="noopener noreferrer" className="Scrollable"
+  style={{
+    fontSize:linkstuff,
+    alignSelf: "flex-start",
+    justifySelf: "center",
+  }}
+  >{s.name}</a><input className="Scrollable" type="checkbox" id={s.id} name="story" value={s.name} style={{
+    marginLeft: "20px",
+    alignSelf: "flex-end",
+    justifySelf: "center",
+    accentColor: "black"
+  }}
+  onChange={
+    (e) =>  {
+      const newStories = stories.map((story) => {
+      if(story.id == e.target.id){
+        return {
+          ...story, checked: !story.checked
+        }
+      }
+      else{
+        return {
+          ...story
+        }
+      }
+      });
+      setStories(newStories);
+      const allTrue = (c) => {return c.checked == true}
+      if(newStories.every(allTrue)){alert("You have finished reading all the stories in this era!")}
+
+    }
+  }
+  /></p>
 }
 function Card({ id,text,boxtext,boximg }){
   const { width, height } = checkWindowDimension();
