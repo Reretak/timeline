@@ -98,8 +98,8 @@ function CardText({text,setIsHovered}){
     linkstuff = "1rem"
   }
   else{
-    textstuff = "4rem"
-    subtextstuff = "1.25rem"
+    textstuff = "2.5rem"
+    subtextstuff = "1rem"
     linkstuff = "2rem"
   }
   return (
@@ -281,7 +281,7 @@ function Square({color,border,children,isHovered,setIsHovered}){
     height: size.h + "px",
     width: endwidth + "px",
     backgroundColor: color,
-    border: "0.5rem solid " + border,
+    border: "0.25rem solid " + border,
     zIndex: "2",
     position: "absolute",
     top: "50%",            
