@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import checkWindowDimension from './checkWindowDimension';
 import useHorizontalScroll  from './horizontalScroll';  
@@ -92,6 +92,11 @@ function CardText({text,setIsHovered}){
   const [stories, setStories] = useState(
     text.stories.map(s =>({...s, checked:false}))
   );
+  useEffect(() => {
+    if(localStorage.getItem("stories") != null){
+      setStories(JSON.parse(localStorage.getItem("stories")))
+    }
+  },[]);
   console.log(stories)
   let textstuff;
   let subtextstuff;
@@ -213,9 +218,9 @@ function StoryItem({s,linkstuff,setStories,stories}){
       }
       });
       setStories(newStories);
+      localStorage.setItem("stories",JSON.stringify(newStories));
       const allTrue = (c) => {return c.checked == true}
       if(newStories.every(allTrue)){alert("You have finished reading all the stories in this era!")}
-
     }
   }
   /></p>
