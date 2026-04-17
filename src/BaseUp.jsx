@@ -1,12 +1,10 @@
 import { useEffect, useState, useContext, createContext } from 'react'
 import './App.css'
 import checkWindowDimension from './checkWindowDimension';
-import useHorizontalScroll  from './horizontalScroll';  
 
 export const CountContext = createContext(0);
 
 function BaseUp() {
-  const scrollRef = useHorizontalScroll(); 
   let storiesStorage = JSON.parse(localStorage.getItem("stories"))
   let readCount = 0;
     for (let i = 0; i < storiesStorage.length; i++) {
@@ -22,7 +20,7 @@ function BaseUp() {
   return (
     <CountContext value={{count,setCount}}>
     <div style={{position: "relative",maxWidth: "100vw"}}>
-      <div ref={scrollRef} id="fakeroot">
+      <div id="fakeroot">
         <Card id={"1"} boxtext={"2024-2026 / 514-516PU"} text={{
           maintext: "Whether intentionally or not, the organization had revealed the existence of another world to the public. Negotiation, threat, and backroom deals would fill many chambers during these years. While Earth's world leaders were busy, the leaders on the other side were in no way relaxed. Yet, without internet, information travels slowly. Only a small part of the world knew what a human was, but soon, they would know them very well.",
           titletext:"First Contact",
@@ -174,9 +172,8 @@ function CardText({text,setIsHovered,id}){
         overflowY: "scroll",
         maxHeight: "100%",
       }}
-      className="Scrollable"
     >
-      <p className="Scrollable"
+      <p 
         style={{
           fontSize: textstuff,
           fontWeight: "bold",
@@ -185,7 +182,7 @@ function CardText({text,setIsHovered,id}){
       >
         {text.titletext}
       </p>
-      <p className="Scrollable"
+      <p 
         style={{
           fontSize: subtextstuff,
           padding: "20px"
@@ -200,7 +197,7 @@ function CardText({text,setIsHovered,id}){
           flexDirection: "column",
           textAlign: "left",
         }}
-        className="Scrollable"
+        
       >
         {text.stories.map((s) => {
             return <StoryItem s={s} key={s.id} linkstuff={linkstuff} setStories={setStories} stories={stories} groupid={id}></StoryItem>
@@ -234,7 +231,7 @@ function StoryItem({s,linkstuff,setStories,stories,groupid}){
       backgroundImage: "linear-gradient(to right, #ffffff, #6b6b6b)"
     }
   }
-  return <p key={s.id} className="Scrollable" 
+  return <p key={s.id}  
   style={{
     ...extra,
     backgroundSize: "500% 100%",
@@ -246,13 +243,13 @@ function StoryItem({s,linkstuff,setStories,stories,groupid}){
     paddingLeft: "10%",
     paddingRight: "20%",
     ...flashy
-  }}><a href={s.link} target="_blank" rel="noopener noreferrer" className="Scrollable"
+  }}><a href={s.link} target="_blank" rel="noopener noreferrer" 
   style={{
     fontSize:linkstuff,
     alignSelf: "flex-start",
     justifySelf: "center",
   }}
-  >{s.name}</a><input className="Scrollable" type="checkbox" id={s.id} name="story" value={s.name} checked={story.checked} style={{
+  >{s.name}</a><input  type="checkbox" id={s.id} name="story" value={s.name} checked={story.checked} style={{
     marginLeft: "20px",
     alignSelf: "flex-end",
     justifySelf: "center",
