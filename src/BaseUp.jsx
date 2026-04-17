@@ -319,7 +319,7 @@ function Card({ id,text,boxtext,boximg }){
     <>
       <div
         style={{
-          width: "20vw",
+          width: "10vw",
           flex: "1",
           display: "flex",
           flexDirection: dir,

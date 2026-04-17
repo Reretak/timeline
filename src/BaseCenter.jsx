@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import './App.css'
 import checkWindowDimension from './checkWindowDimension';
-import useHorizontalScroll  from './horizontalScroll';
 
 function BaseCenter() {
 
