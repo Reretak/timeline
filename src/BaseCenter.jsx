@@ -17,6 +17,8 @@ function TextBox(){
       <div
         style={{
           maxWidth: "30vw",
+          minWidth: "300px",
+          minHeight: "500px",
           flex: "1",
           display: "flex",
           flexDirection: "column",
@@ -25,7 +27,7 @@ function TextBox(){
           padding: "20px",
           opacity: "0.85",
           backgroundColor: "#c4c4c4",
-          fontSize: "clamp(0.5rem,1.25vw,1.25rem)",
+          fontSize: "clamp(15px,1.25vw,1.25rem)",
           
         }}
       >

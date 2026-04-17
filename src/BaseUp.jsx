@@ -199,17 +199,15 @@ function CardText({text,setIsHovered,id}){
     subtextstuff = "0.75rem"
     linkstuff = "1rem"
   return (
-    <div
+    <div className="unclick"
       onMouseEnter={()=>{setIsHovered(true)}}
       onMouseLeave={()=>{setIsHovered(false)}}
-      onTouchStart={()=>{setIsHovered(true)}}
-      onTouchEnd={()=>{setIsHovered(false)}}
       style={{
         overflowY: "scroll",
         maxHeight: "100%",
       }}
     >
-      <p 
+      <p className="unclick"
         style={{
           fontSize: textstuff,
           fontWeight: "bold",
@@ -218,7 +216,7 @@ function CardText({text,setIsHovered,id}){
       >
         {text.titletext}
       </p>
-      <p 
+      <p className="unclick"
         style={{
           fontSize: subtextstuff,
           padding: "20px"
@@ -227,7 +225,7 @@ function CardText({text,setIsHovered,id}){
         {text.maintext}
       </p>
       <hr></hr>
-      <div
+      <div className="unclick"
         style={{
           display: "flex",
           flexDirection: "column",
@@ -236,7 +234,7 @@ function CardText({text,setIsHovered,id}){
         
       >
         {text.stories.map((s) => {
-            return <StoryItem s={s} key={s.id} linkstuff={linkstuff} setStories={setStories} stories={stories} groupid={id}></StoryItem>
+            return <StoryItem s={s} key={s.id} linkstuff={linkstuff} setStories={setStories} stories={stories} groupid={id} className="unclick"></StoryItem>
         })}
         </div>
     </div>
@@ -267,7 +265,8 @@ function StoryItem({s,linkstuff,setStories,stories,groupid}){
       backgroundImage: "linear-gradient(to right, #ffffff, #6b6b6b)"
     }
   }
-  return <p key={s.id}  
+  return <p key={s.id} 
+  className="unclick" 
   style={{
     ...extra,
     backgroundSize: "500% 100%",
@@ -279,13 +278,13 @@ function StoryItem({s,linkstuff,setStories,stories,groupid}){
     paddingLeft: "10%",
     paddingRight: "20%",
     ...flashy
-  }}><a href={s.link} target="_blank" rel="noopener noreferrer" 
+  }}><a href={s.link} target="_blank" rel="noopener noreferrer" className="unclick" 
   style={{
     fontSize:linkstuff,
     alignSelf: "flex-start",
     justifySelf: "center",
   }}
-  >{s.name}</a><input  type="checkbox" id={s.id} name="story" value={s.name} checked={story.checked} style={{
+  >{s.name}</a><input  type="checkbox" id={s.id} name="story" value={s.name} checked={story.checked} className="unclick" style={{
     marginLeft: "20px",
     alignSelf: "flex-end",
     justifySelf: "center",
@@ -443,6 +442,21 @@ function Line({ boxtext,isHovered,setIsHovered }){
 }
 function Square({color,border,children,isHovered,setIsHovered}){
   let size;
+    useEffect(()=>{
+    let dostuff = (event) => {
+      if(!event.target.className == "unclick" || event.target.className == null || event.target.className == ""){
+        console.log("RAH");
+        console.log(event.target);
+        setIsHovered(false)
+      }
+      else{
+        console.log("BRUH");
+        console.log(event.target.className);
+      } 
+    }
+    document.addEventListener("touchstart",dostuff);
+    return() => document.removeEventListener("touchstart",dostuff)
+  }, [isHovered])
   const { width, height } = checkWindowDimension();
 
 
@@ -476,13 +490,13 @@ function Square({color,border,children,isHovered,setIsHovered}){
 
   return(
     <div
+      className="unclick"
       style={
         squareStyle
       }
       onMouseEnter={()=>{setIsHovered(true)}}
       onMouseLeave={()=>{setIsHovered(false)}}
       onTouchStart={()=>{setIsHovered(true)}}
-      onTouchEnd={()=>{setIsHovered(false)}}
     >
       {children}
     </div>
