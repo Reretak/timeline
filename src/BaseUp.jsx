@@ -1,13 +1,26 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useState, useContext, createContext } from 'react'
 import './App.css'
 import checkWindowDimension from './checkWindowDimension';
 import useHorizontalScroll  from './horizontalScroll';  
 
+export const CountContext = createContext(0);
+
 function BaseUp() {
-
-  const scrollRef = useHorizontalScroll();
-
+  const scrollRef = useHorizontalScroll(); 
+  let storiesStorage = JSON.parse(localStorage.getItem("stories"))
+  let readCount = 0;
+    for (let i = 0; i < storiesStorage.length; i++) {
+      for (let a = 0; a < storiesStorage[i].contents.length; a++){
+        if(storiesStorage[i].contents[a] != null){
+          if(storiesStorage[i].contents[a].checked){
+            readCount += 1
+          }
+        }
+      }
+    }
+  const [count, setCount] = useState(readCount);
   return (
+    <CountContext value={{count,setCount}}>
     <div style={{position: "relative",maxWidth: "100vw"}}>
       <div ref={scrollRef} id="fakeroot">
         <Card id={"1"} boxtext={"2024-2026 / 514-516PU"} text={{
@@ -64,7 +77,9 @@ function BaseUp() {
           boximg={"https://i.imgur.com/tS2Hiqz.jpeg"}/>
       </div>
       <ArrowDown />
+      <Counter/>
     </div>
+    </CountContext>
   )
 }
 function ArrowDown() {
@@ -80,24 +95,62 @@ function ArrowDown() {
         transform: "translateX(-50%)",
         cursor: "pointer",
       }}
-      onClick={() => { window.scrollBy({left:0,top:window.innerHeight,behavior: "smooth"}); console.log("FUCK") }}
+      onClick={() => { window.scrollBy({left:0,top:window.innerHeight,behavior: "smooth"}); }}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path d="M50 80 L20 30 L80 30 Z" fill="black" />
     </svg>
   );
 }
-function CardText({text,setIsHovered}){
+function Counter() {
+  let storiesStorage = JSON.parse(localStorage.getItem("stories"))
+  let totalCount = 0;
+  const count = useContext(CountContext)
+  for (let index = 0; index < storiesStorage.length; index++) {
+    totalCount += storiesStorage[index].contents.length
+  }
+  
+  return (
+    <p
+      style={{
+        position: "absolute",
+        opacity: "0.75",
+        bottom: "10%",
+        right: "30vw",
+        height: "50px",
+        transform: "translateX(30%)",
+        cursor: "pointer",
+        backgroundColor: "white",
+        textAlign: "center",
+        padding: "10px"
+      }}
+    >
+      Stories Read<br></br>
+      <b>{count.count}/{totalCount}</b>
+    </p>
+  );
+}
+
+function CardText({text,setIsHovered,id}){
   const { width, height } = checkWindowDimension();
   const [stories, setStories] = useState(
     text.stories.map(s =>({...s, checked:false}))
   );
   useEffect(() => {
     if(localStorage.getItem("stories") != null){
-      setStories(JSON.parse(localStorage.getItem("stories")))
+      let storiesStorage = JSON.parse(localStorage.getItem("stories"))
+      if(storiesStorage.find(st => st.group == id)){
+        setStories(storiesStorage.find(st => st.group == id).contents)
+      }
+      else{
+        storiesStorage.push({group : id, contents : stories})
+        localStorage.setItem("stories", JSON.stringify(storiesStorage))
+      }
+    }
+    else{
+      localStorage.setItem("stories", JSON.stringify([{group : id, contents : stories}]))
     }
   },[]);
-  console.log(stories)
   let textstuff;
   let subtextstuff;
   let linkstuff;
@@ -150,16 +203,18 @@ function CardText({text,setIsHovered}){
         className="Scrollable"
       >
         {text.stories.map((s) => {
-            return <StoryItem s={s} key={s.id} linkstuff={linkstuff} setStories={setStories} stories={stories}></StoryItem>
+            return <StoryItem s={s} key={s.id} linkstuff={linkstuff} setStories={setStories} stories={stories} groupid={id}></StoryItem>
         })}
         </div>
     </div>
   )
 }
-function StoryItem({s,linkstuff,setStories,stories}){
+function StoryItem({s,linkstuff,setStories,stories,groupid}){
   let flashy;
   let extra;
-  if(!stories[s.id].checked){
+  let story = stories.find(story => story.id === s.id);
+  const count = useContext(CountContext)  
+  if(!story.checked){
     flashy={
       backgroundPosition: "left",
     }
@@ -197,7 +252,7 @@ function StoryItem({s,linkstuff,setStories,stories}){
     alignSelf: "flex-start",
     justifySelf: "center",
   }}
-  >{s.name}</a><input className="Scrollable" type="checkbox" id={s.id} name="story" value={s.name} style={{
+  >{s.name}</a><input className="Scrollable" type="checkbox" id={s.id} name="story" value={s.name} checked={story.checked} style={{
     marginLeft: "20px",
     alignSelf: "flex-end",
     justifySelf: "center",
@@ -206,7 +261,7 @@ function StoryItem({s,linkstuff,setStories,stories}){
   onChange={
     (e) =>  {
       const newStories = stories.map((story) => {
-      if(story.id == e.target.id){
+      if(story.id == s.id){
         return {
           ...story, checked: !story.checked
         }
@@ -218,7 +273,23 @@ function StoryItem({s,linkstuff,setStories,stories}){
       }
       });
       setStories(newStories);
-      localStorage.setItem("stories",JSON.stringify(newStories));
+      let storiesStorage = JSON.parse(localStorage.getItem("stories"))
+      storiesStorage.find(gr => gr.group == groupid).contents = newStories
+      localStorage.setItem("stories", JSON.stringify(storiesStorage))
+      
+      
+      let readCount = 0;
+      for (let i = 0; i < storiesStorage.length; i++) {
+        for (let a = 0; a < storiesStorage[i].contents.length; a++){
+          if(storiesStorage[i].contents[a] != null){
+            if(storiesStorage[i].contents[a].checked){
+              readCount += 1
+            }
+          }
+        }
+      }
+      count.setCount(readCount)
+
       const allTrue = (c) => {return c.checked == true}
       if(newStories.every(allTrue)){alert("You have finished reading all the stories in this era!")}
     }
@@ -233,10 +304,10 @@ function Card({ id,text,boxtext,boximg }){
   const [isHovered, setIsHovered] = useState(false);
   if(id % 2 == 0){
     firstBox = <Box  isHovered={isHovered}><Boximg boximg={boximg}/></Box>
-    secondBox = <Box isHovered={isHovered}><CardText text={text} setIsHovered={setIsHovered}></CardText></Box>
+    secondBox = <Box isHovered={isHovered}><CardText text={text} id={id} setIsHovered={setIsHovered}></CardText></Box>
   }
   else{
-    firstBox = <Box  isHovered={isHovered}><CardText text={text} setIsHovered={setIsHovered}></CardText></Box>
+    firstBox = <Box  isHovered={isHovered}><CardText text={text} id={id} setIsHovered={setIsHovered}></CardText></Box>
     secondBox = <Box isHovered={isHovered}><Boximg boximg={boximg}/></Box>
   }
   if(width < 600){
