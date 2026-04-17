@@ -1,4 +1,4 @@
-import { useEffect, useState, useContext, createContext } from 'react'
+import { useEffect, useState, useContext, createContext, createRef } from 'react'
 import './App.css'
 import checkWindowDimension from './checkWindowDimension';
 
@@ -17,10 +17,11 @@ function BaseUp() {
       }
     }
   const [count, setCount] = useState(readCount);
+  const Scrolliosis = createRef();
   return (
     <CountContext value={{count,setCount}}>
     <div style={{position: "relative",maxWidth: "100vw"}}>
-      <div id="fakeroot">
+      <div id="fakeroot" ref={Scrolliosis}>
         <Card id={"1"} boxtext={"2024-2026 / 514-516PU"} text={{
           maintext: "Whether intentionally or not, the organization had revealed the existence of another world to the public. Negotiation, threat, and backroom deals would fill many chambers during these years. While Earth's world leaders were busy, the leaders on the other side were in no way relaxed. Yet, without internet, information travels slowly. Only a small part of the world knew what a human was, but soon, they would know them very well.",
           titletext:"First Contact",
@@ -75,6 +76,8 @@ function BaseUp() {
           boximg={"https://i.imgur.com/tS2Hiqz.jpeg"}/>
       </div>
       <ArrowDown />
+      <ArrowRight Scrolliosis={Scrolliosis}/>
+      <ArrowLeft Scrolliosis={Scrolliosis}/>
       <Counter/>
     </div>
     </CountContext>
@@ -89,11 +92,51 @@ function ArrowDown() {
         opacity: "0.75",
         bottom: "10%",
         left: "50vw",
-        height: "50px",
-        transform: "translateX(-50%)",
+        height: "10vh",
+        transform: "translateX(-1vw)",
         cursor: "pointer",
       }}
       onClick={() => { window.scrollBy({left:0,top:window.innerHeight,behavior: "smooth"}); }}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M50 80 L20 30 L80 30 Z" fill="black" />
+    </svg>
+  );
+}
+function ArrowRight({Scrolliosis}) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      style={{
+        position: "absolute",
+        opacity: "0.75",
+        bottom: "45vh",
+        right: "1vw",
+        maxHeight: "10vh",
+        transform: "rotate(-90deg)",
+        cursor: "pointer",
+      }}
+      onClick={() => { Scrolliosis.current.scrollBy({left:window.innerWidth,top:0,behavior: "smooth"}); }}
+      xmlns="http://www.w3.org/2000/svg"
+    >
+      <path d="M50 80 L20 30 L80 30 Z" fill="black" />
+    </svg>
+  );
+}
+function ArrowLeft({Scrolliosis}) {
+  return (
+    <svg
+      viewBox="0 0 100 100"
+      style={{
+        position: "absolute",
+        opacity: "0.75",
+        bottom: "45vh",
+        left: "1vw",
+        maxHeight: "10vh",
+        transform: "rotate(90deg)",
+        cursor: "pointer",
+      }}
+      onClick={() => { Scrolliosis.current.scrollBy({left:-window.innerWidth,top:0,behavior: "smooth"}); }}
       xmlns="http://www.w3.org/2000/svg"
     >
       <path d="M50 80 L20 30 L80 30 Z" fill="black" />
@@ -114,9 +157,9 @@ function Counter() {
         position: "absolute",
         opacity: "0.75",
         bottom: "10%",
-        right: "30vw",
+        right: "10vw",
         height: "50px",
-        transform: "translateX(30%)",
+        transform: "translateX(10%)",
         cursor: "pointer",
         backgroundColor: "white",
         textAlign: "center",
@@ -158,9 +201,9 @@ function CardText({text,setIsHovered,id}){
     linkstuff = "1rem"
   }
   else{
-    textstuff = "2.5rem"
-    subtextstuff = "1rem"
-    linkstuff = "2rem"
+    textstuff = "1.25rem"
+    subtextstuff = "0.75rem"
+    linkstuff = "1rem"
   }
   return (
     <div
@@ -319,11 +362,11 @@ function Card({ id,text,boxtext,boximg }){
     <>
       <div
         style={{
-          width: "10vw",
+          width: "20vw",
           flex: "1",
           display: "flex",
           flexDirection: dir,
-          minWidth: "700px",
+          minWidth: "300px",
           gap: "2%",
           height: "95vh",
         }}
@@ -354,7 +397,6 @@ function Box({ children,isHovered }){
           opacity: "0",
           transition: "visibility 0.5s cubic-bezier(0.01, 0.37, 0.01, 0.99),opacity 1s cubic-bezier(0.01, 0.37, 0.01, 0.99)",
           minHeight: "10px",
-          marginBottom: "30px",
           ...style
         }}
       >
@@ -385,7 +427,7 @@ function Line({ boxtext,isHovered,setIsHovered }){
     wrap = "wrap"
   }
   else{
-    textstuff = "2rem"
+    textstuff = "1rem"
     wrap = "nowrap"
   }
   return (
@@ -418,7 +460,7 @@ function Square({color,border,children,isHovered,setIsHovered}){
     size = {w: 20,h: 70, m: 5}
   }
   else{
-    size = {w: 50,h: 50, m: 10}
+    size = {w: 20,h: 20, m: 10}
   }
 
   let endwidth;
@@ -433,7 +475,7 @@ function Square({color,border,children,isHovered,setIsHovered}){
     height: size.h + "px",
     width: endwidth + "px",
     backgroundColor: color,
-    border: "0.25rem solid " + border,
+    border: "0.15rem solid " + border,
     zIndex: "2",
     position: "absolute",
     top: "50%",            
