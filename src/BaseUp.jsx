@@ -154,16 +154,9 @@ function CardText({text,setIsHovered,id}){
   let textstuff;
   let subtextstuff;
   let linkstuff;
-  if(width < 600){
-    textstuff = "2rem"
-    subtextstuff = "1rem"
-    linkstuff = "1rem"
-  }
-  else{
     textstuff = "2.5rem"
     subtextstuff = "1rem"
     linkstuff = "2rem"
-  }
   return (
     <div
       onMouseEnter={()=>{setIsHovered(true)}}
@@ -310,12 +303,11 @@ function Card({ id,text,boxtext,boximg }){
     firstBox = <Box  isHovered={isHovered}><CardText text={text} id={id} setIsHovered={setIsHovered}></CardText></Box>
     secondBox = <Box isHovered={isHovered}><Boximg boximg={boximg}/></Box>
   }
-  if(width < 600){
-    dir = "row"
-  }
-  else{
+  
+
+
     dir = "column"
-  }
+  
 
   
   return (
@@ -383,14 +375,10 @@ function Line({ boxtext,isHovered,setIsHovered }){
   const { width, height } = checkWindowDimension();
   let textstuff;
   let wrap;
-  if(width < 600){
-    textstuff = "1rem"
-    wrap = "wrap"
-  }
-  else{
+
     textstuff = "2rem"
     wrap = "nowrap"
-  }
+  
   return (
     <>
       <div
@@ -417,12 +405,10 @@ function Line({ boxtext,isHovered,setIsHovered }){
 function Square({color,border,children,isHovered,setIsHovered}){
   let size;
   const { width, height } = checkWindowDimension();
-  if(width < 600){
-    size = {w: 20,h: 70, m: 5}
-  }
-  else{
+
+
     size = {w: 50,h: 50, m: 10}
-  }
+  
 
   let endwidth;
   if(isHovered){
