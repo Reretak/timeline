@@ -5,9 +5,11 @@ import checkWindowDimension from './checkWindowDimension';
 export const CountContext = createContext(0);
 
 function BaseUp() {
-  let storiesStorage = JSON.parse(localStorage.getItem("stories"))
   let readCount = 0;
-    for (let i = 0; i < storiesStorage.length; i++) {
+  let rawstoriesStorage = localStorage.getItem("stories")
+  if(rawstoriesStorage != null){
+      let storiesStorage = JSON.parse(rawstoriesStorage)
+      for (let i = 0; i < storiesStorage.length; i++) {
       for (let a = 0; a < storiesStorage[i].contents.length; a++){
         if(storiesStorage[i].contents[a] != null){
           if(storiesStorage[i].contents[a].checked){
@@ -16,6 +18,7 @@ function BaseUp() {
         }
       }
     }
+  }
   const [count, setCount] = useState(readCount);
   const Scrolliosis = createRef();
   return (
@@ -144,12 +147,17 @@ function ArrowLeft({Scrolliosis}) {
   );
 }
 function Counter() {
-  let storiesStorage = JSON.parse(localStorage.getItem("stories"))
+  let rawstoriesStorage = localStorage.getItem("stories")
+  let count = 0
   let totalCount = 0;
-  const count = useContext(CountContext)
-  for (let index = 0; index < storiesStorage.length; index++) {
-    totalCount += storiesStorage[index].contents.length
+  if(rawstoriesStorage != null){
+      let storiesStorage = JSON.parse(rawstoriesStorage)
+    count = useContext(CountContext)
+    for (let index = 0; index < storiesStorage.length; index++) {
+      totalCount += storiesStorage[index].contents.length
+    }
   }
+
   
   return (
     <p
@@ -190,6 +198,14 @@ function CardText({text,setIsHovered,id}){
     }
     else{
       localStorage.setItem("stories", JSON.stringify([{group : id, contents : stories}]))
+      //This is very scuffed
+      //Tldr, the localstorage is initialized INSIDE the components instead of the parent
+      //Maybe thats bad design or whatever, idk. But the problem is when it first initialize it would set the local storage BUT 
+      //it would NOT implement that localStorage to the text, so it just show nothing on screen, you need to reload the page, to trigger
+      //The other components that I honestly kinda forgot by now, my brain feels like a mush, anyhow ofcourse telling the user "please reload" when enterin, sucks
+      //So this is the 'fix' i wanted to say its 'temporary' but you and I know the truth
+      //Also the LLM i am consulting with said this could cause like an infinite reload? Eh whatever potato potato
+      window.location.reload()
     }
   },[]);
   let textstuff;
