@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import './App.css'
 import checkWindowDimension from './checkWindowDimension';
+import { Link } from '@tanstack/react-router'
 
 function BaseCenter() {
 
@@ -13,7 +14,13 @@ function BaseCenter() {
 }
 function TextBox(){
    return (
-    <>
+    <div 
+      style={{
+        display:"flex",
+        justifyContent: "space-around",
+        alignItems: "end",
+        width: "100vw"
+      }}>
       <div
         style={{
           maxWidth: "30vw",
@@ -37,8 +44,34 @@ function TextBox(){
         <p>The setting is still under development, and by development I mean 95% daydreaming and 5% actual writing, so please be patient! Thanks!</p>
         <p>You can found my stories on <a href="https://www.reddit.com/r/HFY" target="_blank" rel="noopener noreferrer">r/HFY</a> but I am planning to expand more and host some of them (that doesnt really fit the HFY theme) here to!</p>
         <s>The bad grammar will continue until moral improves</s>
+
       </div>
-    </>
+      <div
+          style={{
+          maxWidth: "30vw",
+          minWidth: "300px",
+          minHeight: "200px",
+          maxHeight: "10vh",
+          flex: "1",
+          display: "flex",
+          flexDirection: "column",
+          gap: "2%",
+          padding: "20px",
+          opacity: "0.85",
+          backgroundColor: "#c4c4c4",
+          fontSize: "clamp(15px,1.25vw,1.25rem)",
+          }}>
+          <h2>
+            <Link to="/timeline">TIMELINE</Link>
+          </h2>
+          <h2>
+            <Link to="/wiki">WIKI</Link>
+          </h2>
+          <h2>
+            <Link to="/about">ABOUT</Link>
+          </h2>
+      </div>
+    </div>
    )
 }
 

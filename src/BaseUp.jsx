@@ -78,7 +78,6 @@ function BaseUp() {
           }} 
           boximg={"https://i.imgur.com/tS2Hiqz.jpeg"}/>
       </div>
-      <ArrowDown />
       <ArrowRight Scrolliosis={Scrolliosis}/>
       <ArrowLeft Scrolliosis={Scrolliosis}/>
       <Counter/>

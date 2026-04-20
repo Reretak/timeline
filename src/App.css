@@ -34,7 +34,15 @@
   background-repeat: no-repeat;
   align-items: center;
 }
-
+#about{
+  background-image: url("https://upload.wikimedia.org/wikipedia/commons/0/02/Domestic_Cat.jpg");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  max-width: 100%;
+  height: 100vh;
+  min-height: 100vh;
+  width: 100%; 
+}
 body,
 html {
   margin: 0;
@@ -86,6 +94,6 @@ code {
 }
 a {
   color: inherit;
-  text-decoration: none;
+  text-decoration: underline;
   text-shadow: 3px 3px 5px black;
 }
