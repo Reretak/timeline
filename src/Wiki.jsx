@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import './App.css'
 import checkWindowDimension from './checkWindowDimension';
 import { useState, useEffect } from 'react';
