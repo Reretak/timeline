@@ -62,13 +62,13 @@ function TextBox(){
           fontSize: "clamp(15px,1.25vw,1.25rem)",
           }}>
           <h2>
-            <Link to="/timeline">TIMELINE</Link>
+            <Link to="/timeline/time">TIMELINE</Link>
           </h2>
           <h2>
-            <Link to="/wiki">WIKI</Link>
+            <Link to="/timeline/wiki">WIKI</Link>
           </h2>
           <h2>
-            <Link to="/about">ABOUT</Link>
+            <Link to="/timeline/about">ABOUT</Link>
           </h2>
       </div>
     </div>
