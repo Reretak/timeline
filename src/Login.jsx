@@ -5,7 +5,19 @@ function Login(){
     function loginLogic (formData){
         const name = formData.get("name");
         const password = formData.get("password");
-        alert("TES!");
+        const response = async () => {
+            const result = await axios.post("https://timelineserver-production.up.railway.app/login",{
+                name : name,
+                password : password,   
+                withCredentials: true
+            })
+            if(result){
+                redirect({
+                    to: '/timeline/'
+                })
+            }
+        }
+        response();
     }
     return(
         <>
