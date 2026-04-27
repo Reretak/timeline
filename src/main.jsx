@@ -5,6 +5,7 @@ import BaseUp from './BaseUp.jsx'
 import BaseCenter from './BaseCenter.jsx'
 import About from './About.jsx'
 import Wiki from './Wiki.jsx'
+import Login from './Login.jsx'
 
 import {
   Link,
@@ -59,7 +60,18 @@ const WikiRoute = createRoute({
     )
   },
 })
-const routeTree = rootRoute.addChildren([timelineRoute,AboutRoute,WikiRoute])
+const LoginRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/timeline/login',
+  component: function Index() {
+    return (
+      <>
+        <Login />
+      </>
+    )
+  },
+})
+const routeTree = rootRoute.addChildren([timelineRoute,AboutRoute,WikiRoute,LoginRoute])
 const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
