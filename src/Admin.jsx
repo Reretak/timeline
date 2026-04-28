@@ -45,7 +45,7 @@ function Post(){
             <input name="content" />
             <button type="submit">Login</button>
         </form>
-        <p>{{isSuccess}}</p>
+        <p>Success = {isSuccess}</p>
         </>
     )
 }
