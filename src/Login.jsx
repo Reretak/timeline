@@ -24,6 +24,8 @@ function Login(){
                 }
             );
             // 4. Use navigate() instead of redirect() for Client Actions
+            console.log(response);
+            console.log(response.success);
             if(response.success){
                 navigate({ 
                     to: '/timeline/admin/'
