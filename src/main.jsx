@@ -21,15 +21,26 @@ const rootRoute = createRootRoute({
   component: () => (
     <>
       <Outlet />
-      <BaseCenter />
       <TanStackRouterDevtools />
     </>
   ),
 })
 
-const timelineRoute = createRoute({
+const baseRoute = createRoute({
   getParentRoute: () => rootRoute,
-  path: '/timeline/time',
+  path: '/timeline',
+  component: function Index(){
+    return (
+      <>
+        <Outlet />
+        <BaseCenter />
+      </>
+    )
+  }
+})
+const timelineRoute = createRoute({
+  getParentRoute: () => baseRoute,
+  path: 'time',
   component: function Index() {
     return (
       <>
@@ -39,8 +50,8 @@ const timelineRoute = createRoute({
   },
 })
 const AboutRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/timeline/about',
+  getParentRoute: () => baseRoute,
+  path: 'about',
   component: function Index() {
     return (
       <>
@@ -50,8 +61,8 @@ const AboutRoute = createRoute({
   },
 })
 const WikiRoute = createRoute({
-  getParentRoute: () => rootRoute,
-  path: '/timeline/wiki',
+  getParentRoute: () => baseRoute,
+  path: 'wiki',
   component: function Index() {
     return (
       <>
@@ -71,7 +82,7 @@ const LoginRoute = createRoute({
     )
   },
 })
-const routeTree = rootRoute.addChildren([timelineRoute,AboutRoute,WikiRoute,LoginRoute])
+const routeTree = rootRoute.addChildren([baseRoute.addChildren([timelineRoute,AboutRoute,WikiRoute]),LoginRoute])
 const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
