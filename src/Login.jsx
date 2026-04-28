@@ -1,27 +1,44 @@
 import axios from "axios";
-import { redirect } from '@tanstack/react-router'
+import { useNavigate } from '@tanstack/react-router'
 
 function Login(){
-    function loginLogic (formData){
+    // 1. Initialize the hook
+    const navigate = useNavigate();
+
+    // 2. Make the function async directly.
+    // React 19 passes the FormData object as the first argument automatically.
+    async function loginLogic(formData){
         const name = formData.get("name");
         const password = formData.get("password");
-        const response = async () => {
-            const result = await axios.post("https://timelineserver-production.up.railway.app/login",{
-                name : name,
-                password : password,   
-                withCredentials: true
-            })
-            if(result){
-                redirect({
-                    to: '/timeline/'
-                })
-            }
+
+        try {
+            // 3. Fix Axios: Move 'withCredentials' to the 3rd argument (config)
+            await axios.post(
+                "https://timelineserver-production.up.railway.app/login",
+                {
+                    name: name,
+                    password: password,   
+                },
+                {
+                    withCredentials: true
+                }
+            );
+
+            // 4. Use navigate() instead of redirect() for Client Actions
+            navigate({ 
+                to: '/timeline/'
+            });
+            
+        } catch (error) {
+            console.error("Login failed", error);
+            // You can handle error UI state here if needed
         }
-        response();
     }
+
     return(
         <>
         <p>Login bla bla bla</p>
+        {/* 5. Pass the function directly to action */}
         <form action={loginLogic}>
             <input name="name" />
             <input name="password" />
@@ -32,3 +49,4 @@ function Login(){
 }
 
 export default Login;
+//Ty GLM
