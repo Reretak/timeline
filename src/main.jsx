@@ -6,6 +6,7 @@ import BaseCenter from './BaseCenter.jsx'
 import About from './About.jsx'
 import Wiki from './Wiki.jsx'
 import Login from './Login.jsx'
+import Admin from './Admin.jsx'
 
 import {
   Link,
@@ -78,6 +79,17 @@ const LoginRoute = createRoute({
     return (
       <>
         <Login />
+      </>
+    )
+  },
+})
+const AdminRoute = createRoute({
+  getParentRoute: () => rootRoute,
+  path: '/timeline/admin',
+  component: function Index() {
+    return (
+      <>
+        <Admin />
       </>
     )
   },
