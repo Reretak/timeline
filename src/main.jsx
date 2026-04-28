@@ -94,7 +94,7 @@ const AdminRoute = createRoute({
     )
   },
 })
-const routeTree = rootRoute.addChildren([baseRoute.addChildren([timelineRoute,AboutRoute,WikiRoute]),LoginRoute])
+const routeTree = rootRoute.addChildren([baseRoute.addChildren([timelineRoute,AboutRoute,WikiRoute]),LoginRoute,AdminRoute])
 const router = createRouter({
   routeTree,
   defaultPreload: 'intent',
