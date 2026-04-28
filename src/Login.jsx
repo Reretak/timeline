@@ -24,9 +24,8 @@ function Login(){
                 }
             );
             // 4. Use navigate() instead of redirect() for Client Actions
-            console.log(response);
-            console.log(response.success);
-            if(response.success){
+            // ye sthe data is needed idk why the response has data in it but Ig the AI is right
+            if(response.data.success){
                 navigate({ 
                     to: '/timeline/admin/'
                 });
