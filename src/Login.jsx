@@ -13,7 +13,7 @@ function Login(){
 
         try {
             // 3. Fix Axios: Move 'withCredentials' to the 3rd argument (config)
-            await axios.post(
+            const response = await axios.post(
                 "https://timelineserver-production.up.railway.app/login",
                 {
                     name: name,
@@ -23,11 +23,17 @@ function Login(){
                     withCredentials: true
                 }
             );
-
             // 4. Use navigate() instead of redirect() for Client Actions
-            navigate({ 
-                to: '/timeline/'
-            });
+            if(response.success){
+                navigate({ 
+                    to: '/timeline/admin/'
+                });
+            }
+            else{
+                navigate({ 
+                    to: '/timeline/'
+                });
+            }
             
         } catch (error) {
             console.error("Login failed", error);
